@@ -2,43 +2,47 @@ var addButton = document.querySelector('#ajout');
 var toDo = document.querySelector('#toDo');
 var input = document.querySelector('#inputField');
 
+// Charger les tâches depuis le localStorage lors du chargement initial de la page
+window.addEventListener('load', function() {
+    var savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+        toDo.innerHTML = savedTasks;
+        setupTaskListeners();
+    }
+});
 
 addButton.onclick = function(){
-
-    //verif input vide
-    if(inputField.value != ""){ //pas vide => creer element enfant
-
-        var paragraph = document.createElement('p')
-    }
-    //associer element et contenu de l'input
-
-    paragraph.innerText = inputField.value;
-
-
-    //insérer élément dans la liste
-    toDo.appendChild(paragraph);
-
-    //vider l'input
-    inputField.value ="";
-
-    //style
-    paragraph.classList.add('pStyle');
-
-    //barrer
-    paragraph.addEventListener('click', function(){
-         
-         paragraph.classList.add('pClick');
-       
-    })
-
-    //clear all
-    paragraph.addEventListener('dblclick', function(){
-         
-        toDo.remove(paragraph);
+    if(input.value !== "") {
+        var paragraph = document.createElement('p');
+        paragraph.innerText = input.value;
+        toDo.appendChild(paragraph);
+        input.value = "";
+        paragraph.classList.add('pStyle');
         
-   })
-
+        setupTaskListeners(); // Appeler la fonction pour ajouter les écouteurs aux nouvelles tâches
+        
+        // Sauvegarder les tâches dans le localStorage
+        saveTasksToLocalStorage();
+    }
 }
 
+function setupTaskListeners() {
+    var tasks = document.querySelectorAll('.pStyle');
+    
+    tasks.forEach(function(task) {
+        task.addEventListener('click', function() {
+            task.classList.add('pClick');
+            saveTasksToLocalStorage();
+        });
 
+        task.addEventListener('dblclick', function() {
+            task.remove();
+            saveTasksToLocalStorage();
+        });
+    });
+}
 
+function saveTasksToLocalStorage() {
+    var tasks = toDo.innerHTML;
+    localStorage.setItem('tasks', tasks);
+}
