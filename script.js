@@ -11,7 +11,8 @@ window.addEventListener('load', function() {
     }
 });
 
-addButton.onclick = function(){
+
+    function XA(){
     if(input.value !== "") {
         var paragraph = document.createElement('p');
         paragraph.innerText = input.value;
@@ -23,8 +24,19 @@ addButton.onclick = function(){
         
         // Sauvegarder les tâches dans le localStorage
         saveTasksToLocalStorage();
+       
     }
 }
+addButton.addEventListener('click', XA, false);
+
+
+document.addEventListener('keyup', (e) => {
+    if (e.keyCode === 13) {
+       XA();
+    }
+}, false);
+
+
 
 function setupTaskListeners() {
     var tasks = document.querySelectorAll('.pStyle');
@@ -46,3 +58,5 @@ function saveTasksToLocalStorage() {
     var tasks = toDo.innerHTML;
     localStorage.setItem('tasks', tasks);
 }
+
+
