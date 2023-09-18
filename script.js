@@ -2,7 +2,8 @@ var addButton = document.querySelector('#ajout');
 var toDo = document.querySelector('#toDo');
 var input = document.querySelector('#inputField');
 
-// Charger les tâches depuis le localStorage lors du chargement initial de la page
+// Charger les tâches depuis le localStorage lors du chargement de la page
+
 window.addEventListener('load', function() {
     var savedTasks = localStorage.getItem('tasks');
     if (savedTasks) {
@@ -12,17 +13,17 @@ window.addEventListener('load', function() {
 });
 
 
-    function XA(){
-    if(input.value !== "") {
+    function XA(){  
+    if(input.value !== "") { 
         var paragraph = document.createElement('p');
         paragraph.innerText = input.value;
         toDo.appendChild(paragraph);
         input.value = "";
         paragraph.classList.add('pStyle');
         
-        setupTaskListeners(); // Appeler la fonction pour ajouter les écouteurs aux nouvelles tâches
+        setupTaskListeners(); // Appeler la fonction pour ajouter les listeners aux nouvelles tâches
         
-        // Sauvegarder les tâches dans le localStorage
+        // Sauvegarder dans le localStorage
         saveTasksToLocalStorage();
        
     }
@@ -54,9 +55,22 @@ function setupTaskListeners() {
     });
 }
 
-function saveTasksToLocalStorage() {
+function saveTasksToLocalStorage() { // Sauvegarder dans le localStorage
     var tasks = toDo.innerHTML;
     localStorage.setItem('tasks', tasks);
 }
 
 
+
+     document.addEventListener("DOMContentLoaded", function() { 
+    
+    const closeBtn = document.querySelector('.closebtn');
+    closeBtn.addEventListener("click", function() {
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function() {
+        div.style.display = "none";
+      }, 600);
+    });
+    })
+     
